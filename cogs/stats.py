@@ -28,7 +28,6 @@ class stat(commands.Cog):
             plt.clf()
             _, ax1 = plt.subplots()
             wedges, _, _ = ax1.pie(sizes, colors=colors, autopct='%1.1f%%', shadow=True, pctdistance = 0.85)
-
             #buffer = BytesIO()
             #await member.avatar_url_as(format = "png").save(buffer,seek_begin = True)
             #buffer.seek(0)
