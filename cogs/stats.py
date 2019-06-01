@@ -31,26 +31,26 @@ class Stat(commands.Cog):
                     sizes.append(size)
                     labels.append("{:2.1f}%".format((size/total)*100))
                     colors.append(colour)
-
+            
             plt.clf()
-            _, ax1 = plt.subplots()
-            wedges, _, _ = ax1.pie(sizes, colors=colors, autopct='%1.1f%%', shadow=True, pctdistance = 0.85)
-            #buffer = BytesIO()
-            #await member.avatar_url_as(format = "png").save(buffer,seek_begin = True)
-            #buffer.seek(0)
-            #centre_circle = plt.imread(buffer.read(), "png")
-            #fig = plt.gcf()
-            #fig.gca().add_artist(centre_circle)
+            fig, ax1 = plt.subplots()
+            wedges, _ = ax1.pie(sizes, labels=labels, shadow = True, colors = colors)
 
-            my_circle = plt.Circle((0, 0), 0.7, color = 'white', linewidth = 10)
-            p = plt.gcf()
-            p.gca().add_artist(my_circle)
-            plt.legend(wedges, labels, loc = "best")
-            ax1.axis('equal')  
-            plt.tight_layout()
+            im = plt.imread(BytesIO(await member.avatar_url_as(format = "png", static_format = "png", size = 1024).read()))
+            plt.legend(wedges, labels, loc = "upper right")
+
+            ax2 = fig.add_axes([0.346,0.35,0.32,0.32])
+            ax2.imshow(im)
+            ax2.axis('off')
+            center_mask = plt.Circle((0,0),0.70,fc='white')
+            ax1.add_artist(center_mask)
+            ax1.axis('equal')
+
             output_buffer = BytesIO()
-            plt.savefig(output_buffer, transparent=True)
+            plt.savefig(output_buffer)
             output_buffer.seek(0)
+            plt.clf()
+
             await ctx.send(file = discord.File(output_buffer, "Pie.png"))
 
 def setup(bot):

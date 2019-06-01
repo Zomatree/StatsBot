@@ -8,8 +8,6 @@ class member:
         self.member = memberobject
         self.score = 0
         self.hand = []
-        self.id = self.member.id
-
 
 class game:
     def __init__(self, *players):
@@ -23,31 +21,31 @@ class hum:
         self.db = asyncio.run(self.load())
 
     def load(self):
-        return open("cogs.data.json", "r").text()
+        return json.load(open("cogs.data.json", "r"))
 
     @commands.group(invoke_without_command = True)
     async def cah(self, ctx):
         if ctx.invoked_subcommand is None:
-            await ctx.invoke(self.bot.get_command('help'), ctx.command.qualified_name)
+            await ctx.send_help()
 
     @cah.command()
     async def start(self, ctx):
-        embed = discord.Embed(title = "say `join` to join the game")
-        embed.set_footer(text = "by saing `join` to this you are joining a game of C.A.H")
+        embed = discord.Embed(title = "say `join` to join the game of Cards against humanitys")
         await ctx.send(embed = embed)
         players = {}
-        players[str(ctx.author.id)] = member(ctx.author)
-        def a():
+        players[(ctx.author.id)] = member(ctx.author)
+        async def a():
             while True:
-                message = await self.bot.wait_for("message", check = lambda message: message.channel == ctx.channel, timeout = 30)
-                players[str(message.author.id)] = member(message.author)
+                message = await self.bot.wait_for("message", check = lambda message: message.channel == ctx.channel and message.content.lower() == "join", timeout = 30)
+                players[(message.author.id)] = member(message.author)
+                await ctx.send(f"{message.author.mention} has joined!")
         async def b():
             await asyncio.sleep(30)
 
         await asyncio.wait([a, b], return_when=asyncio.FIRST_COMPLETED)
         await ctx.send()
-        #if len(players) < 3: 
-        #    return await ctx.send("Not enough players")
+        if len(players) < 3: 
+            return await ctx.send("Not enough players")
         
         # -----game--------
         
