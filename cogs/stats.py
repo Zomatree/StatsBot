@@ -49,7 +49,7 @@ class Stat(commands.Cog):
             ax1.axis('equal')  
             plt.tight_layout()
             output_buffer = BytesIO()
-            plt.savefig(output_buffer)
+            plt.savefig(output_buffer, transparent=True)
             output_buffer.seek(0)
             await ctx.send(file = discord.File(output_buffer, "Pie.png"))
 
