@@ -62,11 +62,11 @@ class Stat(commands.Cog):
             plt.legend(wedges, labels, loc = "upper right")
 
             im_square = self.crop_max_sqaure(im).resize((512, 512), Image.LANCZOS)
-            _im = self.mask_circle_trans(im_square)
+            _ = self.mask_circle_trans(im_square)
             im = BytesIO()
-            _im.save(im, "png")
+            _.save(im, "png")
             im.seek(0)
-            im = Image.open(im)
+            im = plt.imread(im)
 
             center_mask = patches.Circle((0,0),0.70,fc='white')
             im.set_clip_path(center_mask)
