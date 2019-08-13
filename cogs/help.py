@@ -10,7 +10,7 @@ class Embedinator:
         self.base_embed = discord.Embed(**kwargs)
         self.embed_list = [self.base_embed.copy()]
         self.current = 0
-        self.buttons = ["◀", "▶", "⏹"]
+        self.buttons = ["◀", "⏹", "▶"]
 
     @property
     def last_page(self):
