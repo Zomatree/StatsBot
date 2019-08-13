@@ -92,7 +92,7 @@ class Stat(commands.Cog):
     def mask_circle_trans(self, im):
         mask = Image.new("L", im.size, 0)
         draw = ImageDraw.Draw(im)
-        draw.ellipse((0,0), 255, outline=1)
+        draw.ellipse([(0,0), im.size], 255) 
 
         result = im.copy()
         result.putalpha(mask)
