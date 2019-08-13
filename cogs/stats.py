@@ -63,8 +63,10 @@ class Stat(commands.Cog):
 
             im_square = self.crop_max_sqaure(im).resize((512, 512), Image.LANCZOS)
             _im = self.mask_circle_trans(im_square)
-            im = plt.imread(BytesIO(_im))
-
+            im = BytesIO()
+            _im.save(im)
+            im.seek(0)
+            im = Image.open(im)
 
             center_mask = patches.Circle((0,0),0.70,fc='white')
             im.set_clip_path(center_mask)
