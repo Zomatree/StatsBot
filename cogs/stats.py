@@ -66,7 +66,7 @@ class Stat(commands.Cog):
             im = BytesIO()
             _.save(im, "png")
             im.seek(0)
-            im = plt.imread(im)
+            im = Image.open(im)
 
             center_mask = patches.Circle((0,0),0.70,fc='white')
             im.set_clip_path(center_mask)
